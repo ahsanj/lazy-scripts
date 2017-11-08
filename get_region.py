@@ -3,6 +3,11 @@ import git
 import sys
 import os
 
+class bcolors:
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    IMP = '\033[91m'
+    ENDC = '\033[0m'
 
 def git_pull():
     try:
@@ -20,14 +25,31 @@ def get_region():
     try:
         with open("stax/"+stack+".json",'r') as json_data:
             data = json.load(json_data)
-            print data["attributes"]["cloud_region"]
+            #print data
+            print "\nThis Stack is deployed in:", bcolors.IMP + data["attributes"]["cloud_region"] + bcolors.ENDC
+            print " "
+        return data
     except:
         print "This PO", stack , "does not exists "
         sys.exit()
 
+def get_stack_details(stack_data):
+    #print stack_data["compute"]
+    count = 0
+    print "==============="
+    print "Stack--details"
+    print "==============="
+    template = "  {0:8}    {1:10}            {2:15}"
+    print bcolors.OKGREEN + template.format("Instance","Re-provision","Termination Protection") + bcolors.ENDC
+    for host in stack_data["compute"]:
+        count +=1
+        print count,"-",host," ",bcolors.WARNING + "  Re-provision ","=>",stack_data["compute"][host]["reprovision"] + bcolors.ENDC ,",",\
+        " Termination Protection ","=>",stack_data["compute"][host]["termination_protection"]
+
 def main():
     git_pull()
-    get_region()
+    jdata=get_region()
+    get_stack_details(jdata)
 
 if __name__ == '__main__':
     main()
