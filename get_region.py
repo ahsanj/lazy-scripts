@@ -47,15 +47,15 @@ def get_stack_details(stack_data):
     print " "
 
     count = 0
-    print "---------------------------------------"
-    print "Instance(s) allowed for re-provisioning"
-    print "---------------------------------------"
+    print "-------------------------------------------------------------------"
+    print "Re-provisioning for the follwoing instance(s) are set to 'allow' in PO"
+    print "-------------------------------------------------------------------"
     template = "  {0:8}    {1:10} "
     print bcolors.OKGREEN + template.format("Instance","Re-provision") + bcolors.ENDC
     for host in stack_data["compute"]:
         count +=1
         if stack_data["compute"][host]["reprovision"] == "allow":
-            print "-",host, bcolors.IMP + "re-provisioning is allowed for this instance" + bcolors.ENDC
+            print "-",host, bcolors.IMP + "re-provisioning for this instance is allowed" + bcolors.ENDC
 
 
 def main():
