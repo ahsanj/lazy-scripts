@@ -34,13 +34,17 @@ def get_region():
         print "This PO", stack , "does not exists "
         sys.exit()
 
-def get_stack_details(stack_data):
-    #print stack_data["compute"]
+def check_vormetric(stack_data):
     try:
         if stack_data["attributes"]["splunkwhisper"]["encryption"]["dsm"] != " ":
             print bcolors.IMP + "*** This is a Vormetric stack! *** "  + bcolors.ENDC
+            #for host in stack_data["compute"]:
     except:
             print  bcolors.OKGREEN +  "Non vormetric Stack" + bcolors.ENDC
+
+
+def get_stack_details(stack_data):
+    #print stack_data["compute"]
 
     sversion=stack_data["attributes"]["splunkwhisper"]["splunk_version"]
     print bcolors.OKGREEN + "Splunk version =>",sversion + bcolors.ENDC
@@ -56,11 +60,13 @@ def get_stack_details(stack_data):
         count +=1
         if stack_data["compute"][host]["reprovision"] == "allow":
             print "-",host, bcolors.IMP + "re-provisioning for this instance is allowed" + bcolors.ENDC
+            #print "\nTotal Instance count for this stack is:", count
 
 
 def main():
     git_pull()
     jdata=get_region()
+    check_vormetric(jdata)
     get_stack_details(jdata)
 
 if __name__ == '__main__':
