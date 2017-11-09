@@ -39,25 +39,24 @@ def get_stack_details(stack_data):
     try:
         if stack_data["attributes"]["splunkwhisper"]["encryption"]["dsm"] != " ":
             print bcolors.IMP + "*** This is a Vormetric stack! *** "  + bcolors.ENDC
-            print " "
     except:
             print  bcolors.OKGREEN +  "Non vormetric Stack" + bcolors.ENDC
-            print " "
 
     sversion=stack_data["attributes"]["splunkwhisper"]["splunk_version"]
     print bcolors.OKGREEN + "Splunk version =>",sversion + bcolors.ENDC
     print " "
 
     count = 0
-    print "==============="
-    print "Stack--details"
-    print "==============="
-    template = "  {0:8}    {1:10}            {2:15}"
-    print bcolors.OKGREEN + template.format("Instance","Re-provision","Termination Protection") + bcolors.ENDC
+    print "---------------------------------------"
+    print "Instance(s) allowed for re-provisioning"
+    print "---------------------------------------"
+    template = "  {0:8}    {1:10} "
+    print bcolors.OKGREEN + template.format("Instance","Re-provision") + bcolors.ENDC
     for host in stack_data["compute"]:
         count +=1
-        print count,"-",host,"  Re-provision","=>",bcolors.IMP +stack_data["compute"][host]["reprovision"] + bcolors.ENDC ,",",\
-        " Termination Protection ","=>",stack_data["compute"][host]["termination_protection"]
+        if stack_data["compute"][host]["reprovision"] == "allow":
+            print "-",host, bcolors.IMP + "re-provisioning is allowed for this instance" + bcolors.ENDC
+
 
 def main():
     git_pull()
