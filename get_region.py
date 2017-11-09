@@ -27,7 +27,7 @@ def get_region():
         with open("stax/"+stack+".json",'r') as json_data:
             data = json.load(json_data)
             #print data
-            print "\nThis Stack is deployed in:", bcolors.IMP + data["attributes"]["cloud_region"] + bcolors.ENDC
+            print "\nThis Stack is deployed in:", bcolors.WARNING + data["attributes"]["cloud_region"] + bcolors.ENDC
             print " "
         return data
     except:
@@ -36,6 +36,13 @@ def get_region():
 
 def get_stack_details(stack_data):
     #print stack_data["compute"]
+    try:
+        if stack_data["attributes"]["splunkwhisper"]["encryption"]["dsm"] != " ":
+            print bcolors.IMP + "*** This is a Vormetric stack! *** "  + bcolors.ENDC
+            print " "
+    except:
+            print  bcolors.OKGREEN +  "Non vormetric Stack" + bcolors.ENDC
+            print " "
     count = 0
     print "==============="
     print "Stack--details"
@@ -44,7 +51,7 @@ def get_stack_details(stack_data):
     print bcolors.OKGREEN + template.format("Instance","Re-provision","Termination Protection") + bcolors.ENDC
     for host in stack_data["compute"]:
         count +=1
-        print count,"-",host,bcolors.WARNING + "  Re-provision ","=>",stack_data["compute"][host]["reprovision"] + bcolors.ENDC ,",",\
+        print count,"-",host,"  Re-provision","=>",bcolors.IMP +stack_data["compute"][host]["reprovision"] + bcolors.ENDC ,",",\
         " Termination Protection ","=>",stack_data["compute"][host]["termination_protection"]
 
 def main():
