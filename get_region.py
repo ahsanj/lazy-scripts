@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import json
 import git
 import sys
@@ -43,7 +44,7 @@ def get_stack_details(stack_data):
     print bcolors.OKGREEN + template.format("Instance","Re-provision","Termination Protection") + bcolors.ENDC
     for host in stack_data["compute"]:
         count +=1
-        print count,"-",host," ",bcolors.WARNING + "  Re-provision ","=>",stack_data["compute"][host]["reprovision"] + bcolors.ENDC ,",",\
+        print count,"-",host,bcolors.WARNING + "  Re-provision ","=>",stack_data["compute"][host]["reprovision"] + bcolors.ENDC ,",",\
         " Termination Protection ","=>",stack_data["compute"][host]["termination_protection"]
 
 def main():
