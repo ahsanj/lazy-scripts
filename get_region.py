@@ -43,6 +43,11 @@ def get_stack_details(stack_data):
     except:
             print  bcolors.OKGREEN +  "Non vormetric Stack" + bcolors.ENDC
             print " "
+
+    sversion=stack_data["attributes"]["splunkwhisper"]["splunk_version"]
+    print bcolors.OKGREEN + "Splunk version =>",sversion + bcolors.ENDC
+    print " "
+
     count = 0
     print "==============="
     print "Stack--details"
