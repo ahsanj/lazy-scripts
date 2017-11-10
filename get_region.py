@@ -38,7 +38,12 @@ def check_vormetric(stack_data):
     try:
         if stack_data["attributes"]["splunkwhisper"]["encryption"]["dsm"] != " ":
             print bcolors.IMP + "*** This is a Vormetric stack! *** "  + bcolors.ENDC
-            #for host in stack_data["compute"]:
+            #print stack_data
+            for host in stack_data["compute"]:
+                if not "filesystem" in stack_data["compute"][host]["lvm"]:
+                    print "This Instance is missing the filesystem field", bcolors.IMP + host + bcolors.ENDC
+                if not "ami" in stack_data["compute"][host] and host !="c0m1" and host !="lm1":
+                    print "This Instance is missing the AMI field ------", bcolors.IMP + host  + bcolors.ENDC
     except:
             print  bcolors.OKGREEN +  "Non vormetric Stack" + bcolors.ENDC
 
