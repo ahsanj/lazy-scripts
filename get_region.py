@@ -44,6 +44,7 @@ def check_vormetric(stack_data):
                     print "This Instance is missing the filesystem field", bcolors.IMP + host + bcolors.ENDC
                 if not "ami" in stack_data["compute"][host] and host !="c0m1" and host !="lm1":
                     print "This Instance is missing the AMI field ------", bcolors.IMP + host  + bcolors.ENDC
+
     except:
             print  bcolors.OKGREEN +  "Non vormetric Stack" + bcolors.ENDC
 
@@ -52,6 +53,7 @@ def get_stack_details(stack_data):
     #print stack_data["compute"]
 
     sversion=stack_data["attributes"]["splunkwhisper"]["splunk_version"]
+    print " "
     print bcolors.OKGREEN + "Splunk version =>",sversion + bcolors.ENDC
     print " "
 
