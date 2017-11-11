@@ -1,14 +1,23 @@
 #!/usr/bin/python
+
 import json
 import git
 import sys
-import os
+import urllib2
 
 class bcolors:
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     IMP = '\033[91m'
     ENDC = '\033[0m'
+
+def check_network():
+    try:
+        urllib2.urlopen('http://splunk.com', timeout=1)
+        return True
+    except urllib2.URLError as err:
+        print "Oh look! The Internet is Down!"
+        sys.exit()
 
 def git_pull():
     try:
@@ -69,8 +78,8 @@ def get_stack_details(stack_data):
             print "-",host, bcolors.IMP + "re-provisioning for this instance is allowed" + bcolors.ENDC
             #print "\nTotal Instance count for this stack is:", count
 
-
 def main():
+    check_network()
     git_pull()
     jdata=get_region()
     check_vormetric(jdata)
