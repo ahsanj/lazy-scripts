@@ -79,7 +79,7 @@ def get_stack_details(stack_data):
             #print "\nTotal Instance count for this stack is:", count
 
 def main():
-    check_network()
+    #check_network()
     git_pull()
     jdata=get_region()
     check_vormetric(jdata)
