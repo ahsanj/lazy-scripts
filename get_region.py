@@ -32,6 +32,13 @@ def get_region():
     stack = raw_input("Enter the stack name: ")
     #print stack
     #print os.path.isfile("stax/"+stack+".json")
+    try: 
+        if not stack:
+            raise ValueError('empty string')
+    except:
+        print "You did not enter the Stack name"
+        sys.exit()
+           
     try:
         with open("stax/"+stack+".json",'r') as json_data:
             data = json.load(json_data)
@@ -68,7 +75,7 @@ def get_stack_details(stack_data):
 
     count = 0
     print "-------------------------------------------------------------------"
-    print "Re-provisioning for the follwoing instance(s) are set to 'allow' in PO"
+    print "Re-provisioning for the following instance(s) are set to 'allow' in PO"
     print "-------------------------------------------------------------------"
     template = "  {0:8}    {1:10} "
     print bcolors.OKGREEN + template.format("Instance","Re-provision") + bcolors.ENDC
