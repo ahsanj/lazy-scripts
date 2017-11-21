@@ -77,6 +77,7 @@ def get_stack_details(stack_data):
         if stack_data["compute"][host]["reprovision"] == "allow":
             print "-",host, bcolors.IMP + "re-provisioning for this instance is allowed" + bcolors.ENDC
             #print "\nTotal Instance count for this stack is:", count
+            print "-","Instance type:", stack_data["compute"][host]["instance_type"] 
 
 def main():
     #check_network()
