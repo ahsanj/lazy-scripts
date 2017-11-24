@@ -29,7 +29,7 @@ def list_tickets():
     return text
 
 '''
-curl -d '{"color":"green","message":"I can send message to training-ground","notify":false,"message_format":"text"}'
+curl -d '{"color":"green","message":"I can send message","notify":false,"message_format":"text"}'
 -H 'Content-Type: application/json'
 https://hipchat.xxxxx.com/v2/room/9604/notification?auth_token=e,kfhelfhelfhelwfh
 '''
@@ -45,15 +45,12 @@ def send_msg(message):
     )
 
     total_tickets= str(len(message.split('\n')))
-    #print total_tickets
-    #print message
 
-    #message = " ".join(message.splitlines())
-    message = str(message.splitlines(True))
-    #print message
+    message= str(message.split(' '))
+    #message = str(message.splitlines(True))
 
     data = '{"color":"green","message":" @here The total number of unassigned ticket(s) in SRE Staff Queue is '+total_tickets+'\
-    \\n\\n '+message+'","notify":false,"message_format":"text"}'
+    \\n\\n Tickets:\\n'+message[1:-1]+'","notify":false,"message_format":"text"}'
 
     req= requests.post(config.hipchat, headers=headers, params=params, data=data)
 
@@ -62,10 +59,11 @@ def send_msg(message):
     else:
         print "Request accepted: ",req.status_code
 
+
+
 def main():
 
     tickets= list_tickets()
-    #print tickets
     send_msg(tickets)
 
 if __name__ == '__main__':
