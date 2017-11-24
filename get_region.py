@@ -75,7 +75,7 @@ def get_stack_details(stack_data):
 
     count = 0
     print "-------------------------------------------------------------------"
-    print "Re-provisioning for the follwoing instance(s) are set to 'allow' in PO"
+    print "Re-provisioning for the following instance(s) are set to 'allow' in PO"
     print "-------------------------------------------------------------------"
     template = "  {0:8}    {1:10} "
     print bcolors.OKGREEN + template.format("Instance","Re-provision") + bcolors.ENDC
