@@ -3,6 +3,7 @@ import requests
 import sys
 from urlparse import urljoin
 import config
+import string
 
 
 def list_tickets():
@@ -34,7 +35,7 @@ curl -d '{"color":"green","message":"I can send message","notify":false,"message
 https://hipchat.xxxxx.com/v2/room/9604/notification?auth_token=e,kfhelfhelfhelwfh
 '''
 
-def send_msg(message):
+def send_msg(tickets):
 
     headers = {
         'Content-Type': 'application/json',
@@ -44,13 +45,16 @@ def send_msg(message):
         ('auth_token', config.token),
     )
 
-    total_tickets= str(len(message.split('\n')))
+    total_tickets= str(len(tickets.split('\n')))
 
-    message= str(message.split(' '))
-    #message = str(message.splitlines(True))
+    #message= str(message.split(' '))
+    tickets = str(tickets.splitlines(True))
+    tickets_cleaned = string.replace(tickets[1:-1], ',', '')
+    message = string.replace(tickets_cleaned, "'", "")
+    #print message
 
-    data = '{"color":"green","message":" @here The total number of unassigned ticket(s) in SRE Staff Queue is '+total_tickets+'\
-    \\n\\n Tickets:\\n'+message[1:-1]+'","notify":false,"message_format":"text"}'
+    data = '{"color":"green","message":"@here The total number of unassigned ticket(s) in SRE Staff Queue is '+total_tickets+'\
+    \\n Tickets:\\n'+message+'","notify":false,"message_format":"text"}'
 
     req= requests.post(config.hipchat, headers=headers, params=params, data=data)
 
