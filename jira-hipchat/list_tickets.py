@@ -11,7 +11,7 @@ def list_tickets():
     try:
         jira = JIRA(basic_auth=(config.username, config.password), options={'server': config.server })
         query = 'project = CO AND status not in (Waiting, "In Review", Closed) AND assignee is empty AND component in \
-        (deployment, incident, SRE) AND ("Stack ID" not in (cis, cdt-eng) OR "Stack ID" is EMPTY)\
+        (deployment, incident) AND ("Stack ID" not in (cis, cdt-eng) OR "Stack ID" is EMPTY)\
         ORDER BY cf[12801] ASC'
     except:
         print "Check your credentials"
