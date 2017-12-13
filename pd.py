@@ -2,8 +2,14 @@
 '''
 usage: create a file called config.py in the same directory and add your PagerDuty API key
 api_key= " "  
-'''
-'''
+
+scripts takes one argument "wing" or "tindia"
+
+$ python pd.py wing
+xxxxxx- Is oncall!
+$ python pd.py tindia
+xxxxx - Is oncall!
+
 ***schedules***
 https://xxxx.pagerduty.com/schedules#P5VS9U8 - wing
 https://xxxx.pagerduty.com/schedules#PLWJB2W - tindia
