@@ -3,16 +3,19 @@
 usage: create a file called config.py in the same directory and add your PagerDuty API key
 api_key= " "  
 
-scripts takes one argument "wing" or "tindia"
+scripts takes one argument "wing" or "india or gov"
 
 $ python pd.py wing
 xxxxxx- Is oncall!
-$ python pd.py tindia
-xxxxx - Is oncall!
+$ python pd.py india
+xxxxxx - Is oncall!
+$ python pd.py gov
+xxxxxx - Is oncall!
 
 ***schedules***
 https://xxxx.pagerduty.com/schedules#P5VS9U8 - wing
-https://xxxx.pagerduty.com/schedules#PLWJB2W - tindia
+https://xxxx.pagerduty.com/schedules#PLWJB2W - india
+https://xxxx.pagerduty.com/schedules#PIGF7O0 - gov
 '''
 import requests
 import json
@@ -51,18 +54,21 @@ def oncall_sre(SCHEDULE_IDS):
 
 def main():
     if len(sys.argv) == 1:
-        print 'usage: ./pd.py {wing | tindia}'
+        print 'usage: ./pd.py {wing | india | gov}'
         sys.exit(1)
-    if  sys.argv[1] == "wing" or "tindia":
+    if  sys.argv[1] == "wing" or "india" or "gov":
         option = sys.argv[1]
         if option == 'wing':
             SCHEDULE_IDS = ['P5VS9U8']
             oncall_sre(SCHEDULE_IDS)
-        elif option == 'tindia':
+        elif option == 'india':
             SCHEDULE_IDS =['PLWJB2W']
             oncall_sre(SCHEDULE_IDS)
+        elif option == 'gov':
+            SCHEDULE_IDS =['PIGF7O0']
+            oncall_sre(SCHEDULE_IDS)
         else:
-            print 'unknown option: use wing | tindia'
+            print 'unknown option: use wing | india | gov'
             sys.exit(1)
 
 if __name__ == '__main__':
