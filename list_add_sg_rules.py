@@ -45,6 +45,11 @@ def sg_rules(stack,region):
             #print "You can add another", 50 - total_rules, 'rules to', stack
             print ''
             return g_id
+    else: 
+        print "cannot find the stack!"
+        sys.exit()
+        
+            
 
 def add_rules(region,id):
     #print region, id
