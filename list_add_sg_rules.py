@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import boto3
 from argparse import ArgumentParser
 import sys
