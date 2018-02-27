@@ -54,45 +54,53 @@ def sg_rules(stack,region):
 
 def add_rules(region,id):
     #print region, id
-    add_exit = raw_input("If you want to add more rules to SG press any key otherwise no: ") 
-    if add_exit == "no":
-        sys.exit()
-    else: 
-        prot=  raw_input("Enter the IP Protocol e.g tcp/udp: ")
-        ip_regex = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/(0|16|24|32)$")
-        cidr=  raw_input("Enter the Cidr range e.g IPaddress/subnet<0.0.0.0/0> 0r <192.168.0.1/24>: ")
-        ip_test = ip_regex.match(cidr)
-        if ip_test:
-            print "Acceptable ip address | Cidr block"
-        else:
-            print "Unacceptable ip address"
+    add_exit = raw_input("If you want to add more rules to SG press any key otherwise no: ")
+
+    while True: 
+        if add_exit == "no":
             sys.exit()
-        
-        for i in range(0,2):
-            fport= raw_input("Enter the From port: ")
-            try:
-                checking_fport = int(fport)
-            except ValueError:
-                print "To Port should be digits only! "
-                continue
+        else: 
+            prot=  raw_input("Enter the IP Protocol e.g tcp/udp: ")
+            ip_regex = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/(0|16|24|32)$")
+            cidr=  raw_input("Enter the Cidr range e.g IPaddress/subnet<0.0.0.0/0> 0r <192.168.0.1/24>: ")
+            ip_test = ip_regex.match(cidr)
+            if ip_test:
+                print "Acceptable ip address | Cidr block"
             else:
-                break
+                print "Unacceptable ip address"
+                sys.exit()
         
-        for i in range(0,2):
-            tport= raw_input("Enter the To port: ")
-            try:
-                checking_tport = int(tport)
-            except ValueError:
-                print "To Port should be digits only! "
-            else:    
-                break
+            for i in range(0,2):
+                fport= raw_input("Enter the From port: ")
+                try:
+                    checking_fport = int(fport)
+                except ValueError:
+                    print "To Port should be digits only! "
+                    continue
+                else:
+                    break
+        
+            for i in range(0,2):
+                tport= raw_input("Enter the To port: ")
+                try:
+                    checking_tport = int(tport)
+                except ValueError:
+                    print "To Port should be digits only! "
+                else:    
+                    break
 	    #sys.exit()
         
-        try:
-            boto3.client("ec2",region_name=region).authorize_security_group_ingress\
-            (GroupId=id,IpProtocol=prot, CidrIp=cidr, FromPort=int(fport), ToPort=int(tport))
-        except:
-            "print rule already exits in the SG"
+            try:
+                boto3.client("ec2",region_name=region).authorize_security_group_ingress\
+                (GroupId=id,IpProtocol=prot, CidrIp=cidr, FromPort=int(fport), ToPort=int(tport))
+            except:
+                "print rule already exits in the SG"
+
+        run_again = raw_input("If you like to add more rules, please type 'yes': ")
+        if run_again == "yes":
+            continue
+        else:
+             break
     
 
 
