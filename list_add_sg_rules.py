@@ -25,26 +25,25 @@ def sg_rules(stack,region):
     print "\nGetting the %s SG rules" %stack
     print ""
     count = 0
-    total_rules = 0
+    count1 = 0
     for name in boto3.client("ec2",region_name=region).describe_security_groups()['SecurityGroups']:
         #print name
         if name['GroupName'] == stack:
             g_id=name['GroupId']
-            print '  Port \t\tCidr \t\t\tProtocol'
+            print '  Port \t\t\tCidr'
             for rule in name['IpPermissions']:
-                #print rule
-                #count +=1
+                count +=1
                 #total_rules +=1
                 if rule['FromPort'] ==  0 or rule['FromPort'] == 1:
-                    print ' ','1 - 65535', '\t\t\t\t',rule['IpProtocol'] 
+                    print ' ','1 - 65535'
                 else:
                     if len(rule['IpRanges']) > 1:
-                        for x in rule['IpRanges']:         
-                            print ' ',rule['FromPort'],'\t\t',rule['IpRanges'][0]['CidrIp'], '\t\t',rule['IpProtocol']
+                        for x in rule['IpRanges']:     
+                            print ' ',rule['FromPort'],'\t\t\t',rule['IpRanges'][0]['CidrIp']
                     else:
-                        print ' ',rule['FromPort'],'\t\t',rule['IpRanges'][0]['CidrIp'], '\t\t',rule['IpProtocol']
-            #print '\nTotal no of rules in this security group %s is:' %stack,total_rules  
-            #print "You can add another", 50 - total_rules, 'rules to', stack
+                        print ' ',rule['FromPort'],'\t\t\t',rule['IpRanges'][0]['CidrIp']
+            #print '\nTotal no of rules in this security group %s is:' %stack,count
+            #print "\nYou can add another", 50 - count, 'rules to', stack
             print ''
             return g_id
     else: 
@@ -61,7 +60,7 @@ def add_rules(region,id):
     else: 
         prot=  raw_input("Enter the IP Protocol e.g tcp/udp: ")
         ip_regex = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/(0|16|24|32)$")
-        cidr=  raw_input("Enter the Cidr range e.g IPaddress/subnet(0.0.0.0/0): ")
+        cidr=  raw_input("Enter the Cidr range e.g IPaddress/subnet<0.0.0.0/0> 0r <192.168.0.1/24>: ")
         ip_test = ip_regex.match(cidr)
         if ip_test:
             print "Acceptable ip address | Cidr block"
@@ -94,6 +93,7 @@ def add_rules(region,id):
             (GroupId=id,IpProtocol=prot, CidrIp=cidr, FromPort=int(fport), ToPort=int(tport))
         except:
             "print rule already exits in the SG"
+    
 
 
 def main():
